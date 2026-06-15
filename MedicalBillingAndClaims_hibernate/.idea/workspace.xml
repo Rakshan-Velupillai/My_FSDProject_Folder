@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="4b7e1201-218b-43f9-a4e0-39a63944a84b" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../mbacms_springboot/src/main/java/com/mbacms/DTO/ClaimDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../mbacms_springboot/src/main/java/com/mbacms/config/GlobalExceptionHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../mbacms_springboot/src/main/java/com/mbacms/enums/ActiveStatus.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../mbacms_springboot/src/main/java/com/mbacms/enums/Gender.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../mbacms_springboot/src/main/java/com/mbacms/enums/PlanType.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../mbacms_springboot/src/main/java/com/mbacms/enums/Role.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../mbacms_springboot/src/main/java/com/mbacms/mapper/ClaimMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../mbacms_springboot/src/main/java/com/mbacms/model/Healthcare.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../mbacms_springboot/src/main/java/com/mbacms/model/InsuranceCompany.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../mbacms_springboot/src/main/java/com/mbacms/model/InsurancePlan.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../mbacms_springboot/src/main/java/com/mbacms/model/Patient.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../mbacms_springboot/src/main/java/com/mbacms/model/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../mbacms_springboot/src/main/java/com/mbacms/util/ResponseUtility.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../mbacms_springboot/src/main/java/com/mbacms/controller/MainController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../mbacms_springboot/src/main/java/com/mbacms/controller/MainController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../mbacms_springboot/src/main/java/com/mbacms/service/ClaimService.java" beforeDir="false" afterPath="$PROJECT_DIR$/../mbacms_springboot/src/main/java/com/mbacms/service/ClaimService.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Enum" />
+        <option value="Exception" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 4,
+  &quot;fromUser&quot;: false
+}</component>
+  <component name="ProjectId" id="3DwQmQbIPXdUcvJNrdPEMLRmEjO" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.MainController.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/kelly/OneDrive/Desktop/My_FSDProject_Folder/MedicalBillingAndClaims_hibernate&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="MedicalBillingAndClaims_hibernate" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="4b7e1201-218b-43f9-a4e0-39a63944a84b" name="Changes" comment="" />
+      <created>1779190813074</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1779190813074</updated>
+      <workItem from="1779190816376" duration="1434000" />
+      <workItem from="1779247946336" duration="2638000" />
+      <workItem from="1779363416673" duration="2988000" />
+      <workItem from="1779420578313" duration="7310000" />
+      <workItem from="1779627185377" duration="19445000" />
+      <workItem from="1779651003535" duration="106000" />
+      <workItem from="1779671540135" duration="1911000" />
+      <workItem from="1779674487386" duration="1973000" />
+      <workItem from="1779680601947" duration="96000" />
+      <workItem from="1779852992455" duration="1162000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/com/model/Healthcare.java</url>
+          <line>4</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

@@ -1,0 +1,15 @@
+package com.mbacms.enums;
+
+public enum NotificationType {
+    PLAN_VERIFIED,
+    PLAN_REJECTED,
+    INVOICE_READY,
+    CLAIM_SUBMITTED,
+    CLAIM_APPROVED,
+    CLAIM_REJECTED,
+    PARTIAL_PAYMENT,
+    SECONDARY_SUBMITTED,
+    BALANCE_FINAL,
+    INVOICE_PAID,
+    PAYMENT_RECEIVED
+}
