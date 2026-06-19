@@ -3,40 +3,50 @@ package com.mbacms.model;
 
 import com.mbacms.enums.ClaimStatus;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.CreationTimestamp;
 
 import java.math.BigDecimal;
-import java.time.Instant;
+import java.time.LocalDate;
 
 @Entity
 @Getter
 @Setter
-public class Claim{
+@AllArgsConstructor
+@NoArgsConstructor
+public class Claim {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "claim_amount",nullable = false,precision = 10,scale = 2)
-    private BigDecimal claimAmount;
+    @Column(unique = true)
+    private  String claimNumber;
+    @Column(precision = 12, scale = 2)
+     private BigDecimal claimAmount;
 
-    @Column(nullable = false)
-    private String diagnosis;
+     private String diagnosis;
+     private String treatment;
 
-    @Column(nullable = false)
-    private String treatment;
+     @Column(updatable = false)
+     private LocalDate submissionDate;
 
-    @CreationTimestamp
-    @Column(name = "submission_date",updatable = false,nullable = false)
-    private Instant submissionDate;
+     private LocalDate approvedDate;
 
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private ClaimStatus status;
+     @Enumerated(EnumType.STRING)
+      private ClaimStatus claimStatus;
 
+      private  String rejectionReason;
 
+      private String documentUrl;
+
+      @OneToOne
+      private Invoice invoice;
+
+      @ManyToOne
+      private PatientInsurancePlan patientInsurancePlan;
 
 
 }

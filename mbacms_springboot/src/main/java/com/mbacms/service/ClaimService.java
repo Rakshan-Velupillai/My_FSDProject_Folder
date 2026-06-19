@@ -38,7 +38,7 @@ public class ClaimService {
         existingClaim.setClaimAmount(claim.getClaimAmount());
         existingClaim.setDiagnosis((claim.getDiagnosis()));
         existingClaim.setTreatment(claim.getTreatment());
-        existingClaim.setStatus(claim.getStatus());
+        existingClaim.setClaimStatus(claim.getClaimStatus());
 
         claimRepository.save(existingClaim);
     }
