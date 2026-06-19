@@ -14,9 +14,13 @@ const Home=()=>{
                     View User
                 </button>
 
-                <button className="btn btn-success w-100"
+                <button className="btn btn-success w-100 mb-3"
                     onClick={() => navigate('/add-user')}>
                     Add New User
+                </button>
+                <button className="btn btn-success w-100"
+                    onClick={() => navigate('/page')}>
+                    Page
                 </button>
             </div>
         </div>
