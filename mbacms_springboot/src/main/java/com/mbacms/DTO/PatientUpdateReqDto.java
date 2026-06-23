@@ -1,22 +1,21 @@
 package com.mbacms.DTO;
 
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 
 public record PatientUpdateReqDto(
 
-        @NotNull
+        @NotBlank(message = "Name is required.")
         String name,
-        @NotNull
+        @NotBlank(message = "Address is required.")
         String address,
-        @NotNull
+        @NotNull(message = "Date of birth is required.")
         LocalDate dob,
-        @NotNull
+        @NotBlank(message = "Phone number is required.")
         String phoneNumber,
-        @NotNull
-        String symptomsDesc,
-        @NotNull
-        String treatmentDesc
+        @NotBlank(message = "Blood group is required.")
+        String bloodGroup
 ) {
 }

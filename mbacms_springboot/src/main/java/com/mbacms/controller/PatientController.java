@@ -32,17 +32,11 @@ public class PatientController {
 
     @PatchMapping("/patient-update")
     public PatientRespDto patientUpdate(Principal principal,
-                                        @RequestBody PatientUpdateReqDto dto){
+                                        @Valid @RequestBody PatientUpdateReqDto dto){
 
         return patientService.patientUpdate(principal.getName(), dto);
 
     }
-
-//    @PatchMapping("/insurance-plan/select")
-//    public PatientProfileRespDTO selectInsurancePlan(Principal principal, @Valid @RequestBody SelectPlanReqDTO dto) {
-//        return patientService.selectInsurancePlan(principal.getName(), dto);
-//
-//    }
 
     @PostMapping("/insurance-plan/select")
     public void selectPlan(@Valid @RequestBody SelectPlanReqDto dto, Principal principal){
@@ -57,5 +51,15 @@ public class PatientController {
     @GetMapping("/all")
     public List<PatientRespDto> getAllPatients() {
         return patientService.getAllPatients();
+    }
+
+    @GetMapping("/verify/{patientCode}")
+    public PatientRespDto verifyPatient(@PathVariable String patientCode) {
+        return patientService.verifyPatient(patientCode);
+    }
+
+    @GetMapping("/my-plans")
+    public List<java.util.Map<String, Object>> getMyPlans(Principal principal) {
+        return patientService.getPatientPlansList(principal.getName());
     }
 }

@@ -16,7 +16,9 @@ public class InsuranceCompanyMapper {
                 insuranceCompany.getUser().getEmail(),
                 insuranceCompany.getCompanyName(),
                 insuranceCompany.getRegNo(),
-                insuranceCompany.getAddress()
+                insuranceCompany.getAddress(),
+                insuranceCompany.getUser().getFullName(),
+                insuranceCompany.getUser().getPhoneNumber()
         );
     }
     public UserReqDto insuranceDtoToUserDto(UserRespDto dto){

@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @Service
@@ -47,8 +48,9 @@ public class PatientService {
         patient.setDob(dto.dob());
         patient.setGender(dto.gender());
         patient.setAddress(dto.address());
-        patient.setSymptomsDesc(dto.symptomsDesc());
-        patient.setTreatmentDesc(dto.treatmentDesc());
+        patient.setBloodGroup(dto.bloodGroup());
+        patient.setPatientCode("PAT-" + java.util.UUID.randomUUID().toString().substring(0, 8).toUpperCase());
+
 
         patient.setUser(user);
 
@@ -86,11 +88,8 @@ public class PatientService {
         if(dto.dob()!=null){
         patient.setDob(dto.dob());
         }
-        if(dto.symptomsDesc()!=null){
-        patient.setSymptomsDesc(dto.symptomsDesc());
-        }
-        if(dto.treatmentDesc()!=null){
-        patient.setTreatmentDesc(dto.treatmentDesc());
+        if(dto.bloodGroup()!=null){
+            patient.setBloodGroup(dto.bloodGroup());
         }
 
 
@@ -102,13 +101,16 @@ public class PatientService {
 
     }
 
-    public Patient getPatientById(@NotNull int id) {
+    public Patient getPatientById(int id) {
 
         return patientRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Patient not found"));
     }
 
     public void selectPlan(SelectPlanReqDto dto, String name) {
+        if (dto.endDate().isBefore(dto.startDate()) || dto.endDate().isEqual(dto.startDate())) {
+            throw new ResourceNotFoundException("Coverage End Date must be after the Coverage Start Date.");
+        }
         User user = userRepository.findByUsername(name)
                 .orElseThrow(()->new ResourceNotFoundException("User not found"));
 
@@ -122,8 +124,10 @@ public class PatientService {
                         .existsByPatientAndInsurancePlan(patient.getId(), insurancePlan.getId());
 
         if(alreadySelected) {
-            throw new ResourceNotFoundException(
-                    "Patient has already selected this insurance plan");
+            throw new ResourceNotFoundException("Patient has already selected this insurance plan");
+        }
+        if(patientInsurancePlanService.existsByPolicyNumber(dto.policyNumber())) {
+            throw new ResourceNotFoundException("Policy number is not valid");
         }
         //mock insurer db check
         if (!mockInsurance.contains(dto.policyNumber())) {
@@ -137,7 +141,6 @@ public class PatientService {
         patientInsurance.setPolicyNumber(dto.policyNumber());
         patientInsurance.setStartDate(dto.startDate());
         patientInsurance.setEndDate(dto.endDate());
-        patientInsurance.setPriorityOrder(dto.priorityOrder());
         patientInsurance.setActiveStatus(ActiveStatus.ACTIVE);
         patientInsurancePlanService.save(patientInsurance);
 
@@ -162,6 +165,49 @@ public class PatientService {
             User user = patient.getUser();
             List<PatientInsurancePlan> plans = patientInsurancePlanService.findByPatient(patient);
             return patientMapper.entityToDto(patient, user, plans.size());
+        }).toList();
+    }
+
+    public PatientRespDto verifyPatient(String patientCode) {
+        Patient patient = patientRepository.findByPatientCode(patientCode)
+                .orElseThrow(() -> new ResourceNotFoundException("Patient profile not found with code: " + patientCode));
+        User user = patient.getUser();
+        List<PatientInsurancePlan> plans = patientInsurancePlanService.findByPatient(patient);
+        return patientMapper.entityToDto(patient, user, plans.size());
+    }
+
+    public List<java.util.Map<String, Object>> getPatientPlansList(String username) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        Patient patient = patientRepository.findByUser(user)
+                .orElseThrow(() -> new ResourceNotFoundException("Patient profile not found"));
+        List<PatientInsurancePlan> plans = patientInsurancePlanService.findByPatient(patient);
+        return plans.stream().map(p -> {
+            java.util.Map<String, Object> map = new java.util.HashMap<>();
+            map.put("id", p.getId());
+            map.put("policyNumber", p.getPolicyNumber());
+            map.put("activeStatus", p.getActiveStatus() != null ? p.getActiveStatus().toString() : null);
+            map.put("startDate", p.getStartDate());
+            map.put("endDate", p.getEndDate());
+            map.put("priorityOrder", p.getPriorityOrder());
+
+            InsurancePlan ip = p.getInsurancePlan();
+            if (ip != null) {
+                map.put("planName", ip.getPlanName());
+                map.put("planType", ip.getPlanType());
+                map.put("insurancePlanId", ip.getId());
+                if (ip.getInsuranceCompany() != null) {
+                    map.put("companyName", ip.getInsuranceCompany().getCompanyName());
+                } else {
+                    map.put("companyName", null);
+                }
+            } else {
+                map.put("planName", null);
+                map.put("planType", null);
+                map.put("insurancePlanId", null);
+                map.put("companyName", null);
+            }
+            return map;
         }).toList();
     }
 }

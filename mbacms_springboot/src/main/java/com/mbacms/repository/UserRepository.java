@@ -33,9 +33,20 @@ order by u.createdAt DESC
 
 
     @Query("""
-       SELECT u.role, COUNT(u)
-       FROM User u
-       GROUP BY u.role
+       select u.role, count(u)
+       from User u
+       group by u.role
        """)
     List<Object[]> getUserRoleStats();
+
+    @Query("""
+       select u from User u where u.isActive=?1
+       and (?2 is null or ?2 = '' or lower(u.username) like lower(concat('%', ?2, '%')))
+       and (?3 is null or u.role = ?3)
+       """)
+    Page<User> getAllActiveWithSearchAndFilter(boolean isActive, String username, Role role, Pageable pageable);
+
+
+    @Query("select u.role, count(u) from User u where u.isActive = true group by u.role")
+    List<Object[]> getActiveUserRoleStats();
 }

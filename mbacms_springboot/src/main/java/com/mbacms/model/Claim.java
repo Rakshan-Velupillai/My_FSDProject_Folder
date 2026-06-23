@@ -27,9 +27,6 @@ public class Claim {
     @Column(precision = 12, scale = 2)
      private BigDecimal claimAmount;
 
-     private String diagnosis;
-     private String treatment;
-
      @Column(updatable = false)
      private LocalDate submissionDate;
 

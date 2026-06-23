@@ -16,7 +16,10 @@ public class HealthcareMapper {
                 healthcare.getHealthcareName(),
                 healthcare.getSpecialization(),
                 healthcare.getLicenseNumber(),
-                healthcare.getAddress()
+                healthcare.getAddress(),
+                healthcare.getUser().getFullName(),
+                healthcare.getUser().getEmail(),
+                healthcare.getUser().getPhoneNumber()
         );
     }
 

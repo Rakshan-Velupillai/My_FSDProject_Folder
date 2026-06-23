@@ -15,10 +15,11 @@ public record InvoiceRespDto(
         BigDecimal taxRate,
         BigDecimal taxAmount,
         BigDecimal totalDueAmount,
-        BigDecimal balanceRemaining,
         InvoiceStatus invoiceStatus,
         String patientName,
         String healthcareName,
+        String symptomsDesc,
+        String treatmentDesc,
         List<MedicalServiceInvoiceRespDto> items
 ) {
 }

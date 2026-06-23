@@ -6,6 +6,8 @@ public record InsuranceCompanyRespDto(
         String email,
         String companyName,
         String regNo,
-        String address
+        String address,
+        String fullName,
+        String phoneNumber
 ) {
 }

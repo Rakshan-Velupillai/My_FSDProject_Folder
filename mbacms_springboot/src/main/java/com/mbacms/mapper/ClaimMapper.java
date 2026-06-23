@@ -7,25 +7,23 @@ import org.springframework.stereotype.Component;
 @Component
 public class ClaimMapper {
 
-    public ClaimRespDto entityToDto(
-            Claim claim){
+    public static ClaimRespDto mapToDto(Claim c){
 
         return new ClaimRespDto(
-                claim.getId(),
-                claim.getPatientInsurancePlan().getPatient().getUser().getFullName(),
-                claim.getPatientInsurancePlan().getInsurancePlan().getPlanName(),
-                claim.getClaimNumber(),
-                claim.getInvoice().getInvoiceNumber(),
-                claim.getPatientInsurancePlan().getPolicyNumber(),
-                claim.getClaimAmount(),
-                claim.getDiagnosis(),
-                claim.getTreatment(),
-                claim.getSubmissionDate(),
-                claim.getApprovedDate(),
-                claim.getClaimStatus(),
-                claim.getRejectionReason(),
-                claim.getDocumentUrl()
-
+                c.getId(),
+                c.getPatientInsurancePlan().getPatient().getUser().getFullName(),
+                c.getPatientInsurancePlan().getInsurancePlan().getPlanName(),
+                c.getClaimNumber(),
+                c.getInvoice().getInvoiceNumber(),
+                c.getPatientInsurancePlan().getPolicyNumber(),
+                c.getClaimAmount(),
+                c.getInvoice().getSymptomsDesc(),
+                c.getInvoice().getTreatmentDesc(),
+                c.getSubmissionDate(),
+                c.getApprovedDate(),
+                c.getClaimStatus(),
+                c.getRejectionReason(),
+                c.getDocumentUrl()
         );
 
     }

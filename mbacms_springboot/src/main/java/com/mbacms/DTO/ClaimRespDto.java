@@ -18,7 +18,7 @@ public record ClaimRespDto(
     String treatment,
     LocalDate submissionDate,
     LocalDate approvedDate,
-    ClaimStatus status,
+    ClaimStatus claimStatus,
     String rejectionReason,
     String documentUrl
     )

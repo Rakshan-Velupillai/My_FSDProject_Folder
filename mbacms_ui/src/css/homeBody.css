@@ -1,0 +1,57 @@
+.hero-section {
+    min-height: 100vh;
+    background: #f1f5f9;
+
+    display: flex;
+    align-items: center;
+
+    padding-top: 100px;
+}
+
+.hero-badge {
+
+    cursor: default;
+    -webkit-user-select: none;
+    user-select: none;
+/* for making not text editable */
+
+    background: #dbeafe;
+    color: #2563eb;
+
+    padding: 10px 20px;
+
+    border-radius: 50px;
+
+    font-weight: 600;
+}
+
+.hero-title {
+
+    cursor: default;
+    -webkit-user-select: none;
+    user-select: none;
+
+    font-size: 4rem;
+    font-weight: 800;
+
+    color: #071633;
+
+    margin-top: 25px;
+}
+
+.hero-description {
+
+    cursor: default;
+    -webkit-user-select: none;
+    user-select: none;
+
+    color: #64748b;
+
+    font-size: 1.1rem;
+
+    margin: 25px 0;
+}
+
+.p-button {
+    border-radius: 14px;
+}

@@ -5,24 +5,23 @@ import jakarta.validation.constraints.NotNull;
 
 public record InsuranceCompanyReqDto(
         //user account
-        @NotNull
-        @NotBlank
+
+        @NotBlank(message = "Contact Person full name is required.")
         String fullName,
-        @NotNull
-        @NotBlank
+        @NotBlank(message = "Username is required.")
         String username,
-        @NotNull
-        @NotBlank
+        @NotBlank(message = "Email is required.")
         String email,
-        @NotNull
-        @NotBlank
+        @NotBlank(message = "Password is required.")
         String password,
-        @NotNull
-        @NotBlank
+        @NotBlank(message = "Phone number is required.")
         String phoneNumber,
         //insurance company
-        @NotNull @NotBlank String companyName,
-        @NotNull @NotBlank String regNo,
-        @NotNull @NotBlank String address
+        @NotBlank(message = "Company name is required.")
+        String companyName,
+        @NotBlank(message = "Registration number is required.")
+        String regNo,
+        @NotBlank(message = "Address is required.")
+        String address
 ) {
 }

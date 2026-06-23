@@ -40,14 +40,15 @@ public class Invoice {
     @Column(precision = 12, scale = 2)
     private BigDecimal totalDueAmount;
 
-    @Column(precision = 12, scale = 2)
-    private BigDecimal balanceRemaining;
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private InvoiceStatus invoiceStatus;
 
-    private String invoicePdfPath;
+    @Column(length = 1000)
+    private String symptomsDesc;
+
+    @Column(length = 1000)
+    private String treatmentDesc;
 
     @ManyToOne
     private Patient patient;

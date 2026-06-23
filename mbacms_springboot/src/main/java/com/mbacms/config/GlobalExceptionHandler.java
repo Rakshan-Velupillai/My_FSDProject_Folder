@@ -36,9 +36,7 @@ public class GlobalExceptionHandler {
 
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResponseEntity<Map<String,String>> handleMethodArgumentNotValidException(
-            MethodArgumentNotValidException e
-    ){
+    public ResponseEntity<Map<String,String>> handleMethodArgumentNotValidException(MethodArgumentNotValidException e){
         BindingResult bindingResult=e.getBindingResult();
         List<FieldError> errors =bindingResult.getFieldErrors();
         Map<String,String> map=new HashMap<>();
@@ -46,6 +44,12 @@ public class GlobalExceptionHandler {
             map.put(error.getField(), error.getDefaultMessage());
         }
 return ResponseEntity.badRequest().body(map);
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ResponseUtility> handleIllegalArgumentException(IllegalArgumentException e){
+        responseUtility.setMessage(e.getMessage());
+        return ResponseEntity.badRequest().body(responseUtility);
     }
 
 }

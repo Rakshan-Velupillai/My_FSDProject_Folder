@@ -5,29 +5,24 @@ import jakarta.validation.constraints.NotNull;
 
 public record HealthcareReqDto(
         //user account
-        @NotNull
-        @NotBlank
+        @NotBlank(message = "Contact Person full name is required.")
         String fullName,
-        @NotNull
-        @NotBlank
+        @NotBlank(message = "Username is required.")
         String username,
-        @NotNull
-        @NotBlank
+        @NotBlank(message = "Email is required.")
         String email,
-        @NotNull
-        @NotBlank
+        @NotBlank(message = "Password is required.")
         String password,
-        @NotNull
-        @NotBlank
+        @NotBlank(message = "Phone number is required.")
         String phoneNumber,
         //healthcare profile
-        @NotNull
+        @NotBlank(message = "Healthcare organization name is required.")
         String healthcareName,
-        @NotNull
+        @NotBlank(message = "Specialization is required.")
         String specialization,
-        @NotNull
+        @NotBlank(message = "License number is required.")
         String licenseNumber,
-        @NotNull
+        @NotBlank(message = "Address is required.")
         String address
 ) {
 }

@@ -18,8 +18,9 @@ public class PatientMapper{
                 patient.getAddress(),
                 patient.getDob(),
                 user.getPhoneNumber(),
-                patient.getSymptomsDesc(),
-                patient.getTreatmentDesc(),
+                patient.getPatientCode(),
+                patient.getGender(),
+                patient.getBloodGroup(),
                 planCount
 
         );

@@ -13,7 +13,11 @@ public class InsurancePlanMapper {
                 insurancePlan.getId(),
                 insurancePlan.getPlanName(),
                 insurancePlan.getPlanType(),
-                insurancePlan.getPlanDesc()
+                insurancePlan.getPlanDesc(),
+                insurancePlan.getCoverageAmount(),
+                insurancePlan.getPremiumAmount(),
+                insurancePlan.getDurationMonths(),
+                insurancePlan.getActiveStatus()
         );
     }
 }

@@ -3,12 +3,17 @@ package com.mbacms.controller;
 
 import com.mbacms.DTO.ClaimReqDto;
 import com.mbacms.DTO.ClaimRespDto;
+import com.mbacms.enums.ClaimStatus;
 import com.mbacms.model.Claim;
+import com.mbacms.service.ClaimService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.security.Principal;
 import java.util.List;
 
@@ -19,41 +24,35 @@ import java.util.List;
 
 public class ClaimController {
 
-//    private final ClaimService claimService;
-//
-//
-//
-//    @PostMapping("/submit")
-//    public ClaimRespDto submitClaim(Principal principal, @Valid @RequestBody ClaimReqDto dto){
-//        return claimService.submitClaim(principal.getName(),dto);
-//    }
+    private final ClaimService claimService;
 
+    @PostMapping(value = "/submit", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public void submitClaim(
+            Principal principal,
+            @RequestParam("invoiceNumber") String invoiceNumber,
+            @RequestParam("patientInsurancePlanId") int patientInsurancePlanId,
+            @RequestParam("file") MultipartFile file
+    ) throws IOException {
+        claimService.submitClaim(principal.getName(), invoiceNumber, patientInsurancePlanId, file);
+    }
 
-//    @GetMapping("/all")
-//    public List<Claim> getAll(){
-//        return claimService.getAll();
-//    }
-//
-//
-//    @GetMapping("/getById/{id}")
-//    public ResponseEntity<Claim> getById(@PathVariable int id){
-//            return ResponseEntity.ok(claimService.getById(id));
-//    }
-//
-//    @PostMapping("/add")
-//    public void add(@Valid @RequestBody ClaimDTO dto){
-//        claimService.add(dto);
-//    }
-//
-//
-//    @DeleteMapping("/delete/{id}")
-//    public void deleteById(@PathVariable int id){
-//            claimService.deleteById(id);
-//    }
-//
-//    @PutMapping("/update/{id}")
-//    public void update(@PathVariable int id,@RequestBody Claim claim){
-//            claimService.update(id,claim);
-//    }
+    @GetMapping("/patient-claims")
+    public List<ClaimRespDto> getPatientClaims(Principal principal) {
+        return claimService.getPatientClaims(principal.getName());
+    }
 
+    @GetMapping("/company-claims")
+    public List<ClaimRespDto> getCompanyClaims(Principal principal) {
+        return claimService.getCompanyClaims(principal.getName());
+    }
+
+    @PostMapping("/process/{id}")
+    public void processClaim(
+            Principal principal,
+            @PathVariable int id,
+            @RequestParam("status") ClaimStatus status,
+            @RequestParam(value = "rejectionReason", required = false) String rejectionReason
+    ) {
+        claimService.processClaim(principal.getName(), id, status, rejectionReason);
+    }
 }

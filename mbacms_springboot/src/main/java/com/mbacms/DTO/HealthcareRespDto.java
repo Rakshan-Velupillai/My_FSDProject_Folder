@@ -5,6 +5,9 @@ public record HealthcareRespDto(
         String healthcareName,
         String specialization,
         String licenseNumber,
-        String address
+        String address,
+        String fullName,
+        String email,
+        String phoneNumber
 ) {
 }

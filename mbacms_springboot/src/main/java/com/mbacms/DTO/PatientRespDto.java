@@ -1,7 +1,8 @@
 package com.mbacms.DTO;
 
+import com.mbacms.enums.Gender;
+
 import java.time.LocalDate;
-import java.util.List;
 
 public record PatientRespDto(
 
@@ -11,8 +12,9 @@ public record PatientRespDto(
         String address,
         LocalDate dob,
         String phoneNumber,
-        String symptomsDesc,
-        String treatmentDesc,
+        String patientCode,
+        Gender gender,
+        String bloodGroup,
         int insurancePlanCount
 ) {
 }

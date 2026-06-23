@@ -32,10 +32,14 @@ public class InvoiceController {
     }
 
     @GetMapping("/healthcare-invoices/")
-    public List<InvoiceRespDto> getAllInvoiceById(Principal principal, @RequestParam(defaultValue = "0") int page,
-                                                  @RequestParam(defaultValue = "5") int size){
-
-        return invoiceService.getHealthcareInvoiceById(principal.getName(),page,size);
+    public List<InvoiceRespDto> getAllInvoiceById(Principal principal,
+                                                  @RequestParam(defaultValue = "0") int page,
+                                                  @RequestParam(defaultValue = "5") int size,
+                                                  @RequestParam(required = false) String search,
+                                                  @RequestParam(required = false) String status,
+                                                  @RequestParam(required = false) String sortBy,
+                                                  @RequestParam(required = false) String sortDir){
+        return invoiceService.getHealthcareInvoiceById(principal.getName(), page, size, search, status, sortBy, sortDir);
     }
 
     @GetMapping("/patient-invoices")

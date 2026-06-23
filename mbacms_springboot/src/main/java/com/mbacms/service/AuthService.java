@@ -2,10 +2,13 @@ package com.mbacms.service;
 
 
 import com.mbacms.DTO.*;
+import com.mbacms.enums.ClaimStatus;
 import com.mbacms.enums.Role;
 import com.mbacms.exception.ResourceNotFoundException;
 import com.mbacms.mapper.UserMapper;
 import com.mbacms.model.User;
+import com.mbacms.repository.ClaimRepository;
+import com.mbacms.repository.InvoiceRepository;
 import com.mbacms.repository.UserRepository;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
@@ -14,6 +17,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -121,14 +125,43 @@ public class AuthService {
         userRepository.save(user);
     }
 
-    public UserPageDto getAllUsers(int page, int size) {
 
-        Pageable pageable = PageRequest.of(page, size);
+    public UserPageDto getAllUsers(int page, int size, String search, String roleStr, String sortBy, String sortDir) {
+        String resolvedSortBy = "createdAt";
+        if (sortBy != null && !sortBy.trim().isEmpty()) {
+            if ("username".equals(sortBy)) {
+                resolvedSortBy = "username";
+            } else if ("updatedAt".equals(sortBy)) {
+                resolvedSortBy = "updatedAt";
+            } else if ("createdAt".equals(sortBy)) {
+                resolvedSortBy = "createdAt";
+            }
+        }
 
-        Page<User> pages = userRepository.getAllActive(true, pageable);
+        Sort.Direction direction="desc".equalsIgnoreCase(sortDir)?Sort.Direction.DESC:Sort.Direction.ASC;
+
+        Pageable pageable = PageRequest.of(page,size,Sort.by(direction,resolvedSortBy));
+
+        Role role = null;
+        if (roleStr != null && !roleStr.trim().isEmpty() && !"ALL".equalsIgnoreCase(roleStr)) {
+            try {
+                role = Role.valueOf(roleStr.trim().toUpperCase());
+            } catch (IllegalArgumentException e) {
+                // Ignore
+            }
+        }
+
+        Page<User> pages = userRepository.getAllActiveWithSearchAndFilter(
+                true,
+                search != null ? search.trim() : "",
+                role,
+                pageable
+        );
 
         return userMapper.mapEntityToDto(pages);
     }
+
+
 
 
     public UserStatDto getAllUserStat() {
@@ -144,5 +177,43 @@ public class AuthService {
         }
 
         return new UserStatDto(roles, counts);
+    }
+
+    private final ClaimRepository claimRepository;
+    private final InvoiceRepository invoiceRepository;
+    public UserStatDto getActiveUserStat() {
+
+        List<Object[]> stats = userRepository.getActiveUserRoleStats();
+
+        List<Role> roles = new ArrayList<>();
+        List<Long> counts = new ArrayList<>();
+
+        for (Object[] row : stats) {
+            roles.add((Role) row[0]);
+            counts.add((Long) row[1]);
+        }
+
+        return new UserStatDto(roles, counts);
+    }
+
+    public GeneralStatDto getAdminStatsV1() {
+        long claimsCount = claimRepository.count();
+        long invoicesCount = invoiceRepository.count();
+
+        List<String> labels = List.of("Claims", "Invoices");
+        List<Long> counts = List.of(claimsCount, invoicesCount);
+
+        return new GeneralStatDto(labels, counts);
+    }
+
+    public GeneralStatDto getAdminStatsV2() {
+        long submittedCount = claimRepository.countByClaimStatus(ClaimStatus.SUBMITTED);
+        long rejectedCount = claimRepository.countByClaimStatus(ClaimStatus.REJECTED);
+        long approvedCount = claimRepository.countByClaimStatus(ClaimStatus.APPROVED);
+
+        List<String> labels = List.of("Submitted", "Rejected", "Approved");
+        List<Long> counts = List.of(submittedCount, rejectedCount, approvedCount);
+
+        return new GeneralStatDto(labels, counts);
     }
 }

@@ -55,7 +55,9 @@ return new UserPageDto(
                 user.getEmail(),
                 user.getPhoneNumber(),
                 user.getRole(),
-                user.isActive()
+                user.isActive(),
+                user.getCreatedAt(),
+                user.getUpdatedAt()
         );
     }
 }

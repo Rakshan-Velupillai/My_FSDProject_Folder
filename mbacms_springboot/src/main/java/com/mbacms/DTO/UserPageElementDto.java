@@ -2,6 +2,8 @@ package com.mbacms.DTO;
 
 import com.mbacms.enums.Role;
 
+import java.time.Instant;
+
 public record UserPageElementDto(
         int id,
         String fullName,
@@ -9,6 +11,8 @@ public record UserPageElementDto(
         String email,
         String phoneNumber,
         Role role,
-        boolean isActive
+        boolean isActive,
+        Instant createdAt,
+        Instant updatedAt
 ) {
 }

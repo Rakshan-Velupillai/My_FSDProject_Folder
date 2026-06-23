@@ -28,6 +28,10 @@ public class HealthcareController {
     @GetMapping("/get-healthcare")
     public HealthcareRespDto getHealthcare(Principal principal){
         return healthcareService.getHealthcare(principal.getName());
+    }
 
+    @PatchMapping("/update-profile")
+    public HealthcareRespDto updateProfile(Principal principal, @Valid @RequestBody HealthcareRespDto dto) {
+        return healthcareService.updateProfile(principal.getName(), dto);
     }
 }

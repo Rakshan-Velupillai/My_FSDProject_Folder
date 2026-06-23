@@ -4,6 +4,8 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
@@ -16,9 +18,14 @@ import java.util.function.Function;
 public class JwtUtility {
 
 
-    private String SECRET_KEY="higiygvdkabshdefqeyhgibdkavdakhiahsbxhcvakqeaq";
+    // private String SECRET_KEY="higiygvdkabshdefqeyhgibdkavdakhiahsbxhcvakqeaq";
 
-    SecretKey secretKey= Keys.hmacShaKeyFor(Decoders.BASE64.decode(SECRET_KEY));
+    @Value("${secretKey}")
+    private String SECRET_KEY;
+
+    private SecretKey getSecretKey() {
+        return Keys.hmacShaKeyFor(Decoders.BASE64.decode(SECRET_KEY));
+    }
 
 
     public String generateToken(String username){
@@ -37,7 +44,7 @@ public class JwtUtility {
                 .subject(username)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis()+1 * 60 * 60 * 24 * 1000))
-                .signWith(secretKey,Jwts.SIG.HS256)
+                .signWith(getSecretKey(),Jwts.SIG.HS256)
                 .compact();
     }
 
@@ -70,7 +77,7 @@ public class JwtUtility {
     private Claims extractAllClaims(String token) {
         return Jwts
                 .parser()
-                .verifyWith(secretKey)
+                .verifyWith(getSecretKey())
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();

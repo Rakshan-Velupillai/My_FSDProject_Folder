@@ -28,11 +28,10 @@ public class Patient {
     @Column(length = 1000)
     private String address;
 
-    @Column(length = 1000)
-    private String symptomsDesc;
+    @Column(unique = true, nullable = false)
+    private String patientCode;
 
-    @Column(length = 1000)
-    private String treatmentDesc;
+    private String bloodGroup;
 
     @OneToOne
     private User user;

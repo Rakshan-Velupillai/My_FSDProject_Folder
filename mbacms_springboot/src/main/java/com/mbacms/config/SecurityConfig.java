@@ -34,6 +34,7 @@ public class SecurityConfig {
                     //spring needs this for performing the DML ops(PUT,POST..)
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
+                        .requestMatchers("/uploads/**").permitAll()
                         .requestMatchers(HttpMethod.POST,"/api/auth/register").permitAll()
                         .requestMatchers(HttpMethod.GET,"/api/auth/user-details").authenticated()
                         .requestMatchers(HttpMethod.POST,"/api/patient/profile").authenticated()
@@ -46,6 +47,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/patient/all").permitAll()
                         .requestMatchers(HttpMethod.GET,"/api/invoice/patient-invoices").hasAuthority("PATIENT")
                         .requestMatchers(HttpMethod.POST,"/api/invoice/pay/{invoiceId}").hasAuthority("PATIENT")
+                        .requestMatchers(HttpMethod.GET,"/api/patient/verify/{patientCode}").hasAuthority("HEALTHCARE")
 
 
 
@@ -59,6 +61,10 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST,"/api/invoice/generate").hasAuthority("HEALTHCARE")
                         .requestMatchers(HttpMethod.GET,"/api/invoice/getInvoiceById/").hasAuthority("PATIENT")
                         .requestMatchers(HttpMethod.GET,"/api/invoice/healthcare-invoices/").hasAuthority("HEALTHCARE")
+
+                        .requestMatchers(HttpMethod.GET,"/api/insurance-company/get-profile").hasAuthority("INSURANCE_COMPANY")
+                        .requestMatchers(HttpMethod.PATCH,"/api/insurance-company/update-profile").hasAuthority("INSURANCE_COMPANY")
+
 
                         .requestMatchers(HttpMethod.GET,"/api/auth/login").authenticated()
                         .requestMatchers(HttpMethod.GET,"/api/patient/getPatient").hasAuthority("PATIENT")

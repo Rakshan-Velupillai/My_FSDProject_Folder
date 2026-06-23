@@ -1,0 +1,133 @@
+.logo-icon {
+
+    cursor: default;
+    -webkit-user-select: none;
+    user-select: none;
+    width: 45px;
+    height: 45px;
+
+    border-radius: 12px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: white;
+
+    background:
+        linear-gradient(135deg,
+            #2563eb,
+            #14b8a6);
+}
+
+/* ==========================
+   NAVBAR
+========================== */
+
+.custom-navbar {
+    cursor: default;
+    -webkit-user-select: none;
+    user-select: none;
+    background: rgba(255, 255, 255, 0.95);
+
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+
+    padding: 15px 0;
+
+    z-index: 1000;
+}
+
+/* ==========================
+   LOGO
+========================== */
+
+.navbar-brand {
+
+    color: #071633 !important;
+
+    font-size: 1.7rem;
+
+    font-weight: 800;
+
+    letter-spacing: 1px;
+}
+
+/* ==========================
+   NAV LINKS
+========================== */
+
+.nav-link {
+
+    color: #334155 !important;
+
+    font-weight: 600;
+
+    margin: 0 12px;
+
+    transition: all .3s ease;
+}
+
+.nav-link:hover {
+
+    color: #2563eb !important;
+
+    transform: translateY(-2px);
+}
+
+/* ==========================
+   LOGIN BUTTON
+========================== */
+
+.login-btn {
+
+    border: 2px solid #2563eb !important;
+
+    color: #2563eb !important;
+
+    border-radius: 12px !important;
+
+    font-weight: 600 !important;
+
+    transition: all .3s ease;
+}
+
+.login-btn:hover {
+
+    background: linear-gradient(135deg,
+            #2563eb,
+            #14b8a6) !important;
+    /* #2563eb !important; */
+
+    color: white !important;
+}
+
+/* ==========================
+   SIGNUP BUTTON
+========================== */
+
+.signup-btn {
+
+    background:
+        linear-gradient(135deg,
+            #2563eb,
+            #14b8a6) !important;
+
+    border: none !important;
+
+    border-radius: 12px !important;
+
+    font-weight: 600 !important;
+
+    transition: all .3s ease;
+}
+
+.signup-btn:hover {
+
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 8px 20px rgba(37, 99, 235, .3);
+}

@@ -71,8 +71,14 @@ public class AuthController {
     }
 
     @GetMapping("/all-users")
-    public UserPageDto getAllUsers(@RequestParam int page, @RequestParam int size){
-        return authService.getAllUsers(page,size);
+    public UserPageDto getAllUsers(
+            @RequestParam int page,
+            @RequestParam int size,
+            @RequestParam(required = false) String search,
+            @RequestParam(required = false) String role,
+            @RequestParam(required = false) String sortBy,
+            @RequestParam(required = false) String sortDir){
+        return authService.getAllUsers(page, size, search, role, sortBy, sortDir);
     }
 
 
@@ -81,4 +87,23 @@ public class AuthController {
         return authService.getAllUserStat();
     }
 
+    @GetMapping("/user-stat/v1")
+    public UserStatDto getAllUserStatV1(){
+        return authService.getAllUserStat();
+    }
+
+    @GetMapping("/user-stat/v2")
+    public UserStatDto getActiveUserStatV2(){
+        return authService.getActiveUserStat();
+    }
+
+    @GetMapping("/admin-stats/v1")
+    public GeneralStatDto getAdminStatsV1(){
+        return authService.getAdminStatsV1();
+    }
+
+    @GetMapping("/admin-stats/v2")
+    public GeneralStatDto getAdminStatsV2(){
+        return authService.getAdminStatsV2();
+    }
 }

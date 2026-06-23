@@ -19,10 +19,11 @@ public class InvoiceMapper {
                 invoice.getTaxRate(),
                 invoice.getTaxAmount(),
                 invoice.getTotalDueAmount(),
-                invoice.getBalanceRemaining(),
                 invoice.getInvoiceStatus(),
                 invoice.getPatient().getUser().getFullName(),
                 invoice.getHealthcare().getHealthcareName(),
+                invoice.getSymptomsDesc(),
+                invoice.getTreatmentDesc(),
                 services
         );
     }

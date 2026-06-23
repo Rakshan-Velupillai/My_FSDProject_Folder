@@ -1,8 +1,7 @@
 package com.mbacms.enums;
 
 public enum ClaimStatus {
-    PENDING,
+    SUBMITTED,
     APPROVED,
-    REJECTED,
-    PAID
+    REJECTED
 }

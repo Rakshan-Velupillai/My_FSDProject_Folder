@@ -11,10 +11,10 @@ import com.mbacms.mapper.InvoiceMapper;
 import com.mbacms.mapper.MedicalServiceInvoiceMapper;
 import com.mbacms.model.*;
 import com.mbacms.repository.InvoiceRepository;
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -36,7 +36,10 @@ public class InvoiceService {
     private final MedicalServiceInvoiceMapper medicalServiceInvoiceMapper;
     private final InvoiceMapper invoiceMapper;
 
-    public InvoiceRespDto generateInvoice(String name, @Valid InvoiceReqDto dto) {
+    public InvoiceRespDto generateInvoice(String name,InvoiceReqDto dto) {
+        if (dto.dueDate() != null && dto.dueDate().isBefore(LocalDate.now())) {
+            throw new IllegalArgumentException("Due date cannot be in the past.");
+        }
         Healthcare healthcare=healthcareService.getHealthcareByName(name);
 
         Patient patient=patientService.getPatientById(dto.patientId());
@@ -60,8 +63,9 @@ public class InvoiceService {
         invoice.setTaxRate(dto.taxRate());
         invoice.setTaxAmount(taxAmount);
         invoice.setTotalDueAmount(totalAmount);
-        invoice.setBalanceRemaining(totalAmount);
         invoice.setInvoiceStatus(InvoiceStatus.UNPAID);
+        invoice.setSymptomsDesc(dto.symptomsDesc());
+        invoice.setTreatmentDesc(dto.treatmentDesc());
         invoice.setPatient(patient);
         invoice.setHealthcare(healthcare);
 
@@ -111,29 +115,69 @@ public class InvoiceService {
 
     }
 
+    public List<InvoiceRespDto> getHealthcareInvoiceById(String name,int page,int size,String search,String statusStr,String sortBy,String sortDir) {
 
-    public List<InvoiceRespDto> getHealthcareInvoiceById(String name, int page, int size) {
-        Pageable pageable =  PageRequest.of(page,size);
+        String resolvedSortBy = "invoiceDate";
 
-        List<Invoice> invoices = invoiceRepository.getInvoicesByHealthcare(name,pageable);
+        if (sortBy != null && !sortBy.trim().isEmpty()) {
+
+            if (sortBy.equals("patientName")) {
+                resolvedSortBy = "patient.user.fullName";
+            }
+            else if (sortBy.equals("invoiceDate")) {
+                resolvedSortBy = "invoiceDate";
+            }
+            else if (sortBy.equals("dueDate")) {
+                resolvedSortBy = "dueDate";
+            }
+            else if (sortBy.equals("totalDueAmount")) {
+                resolvedSortBy = "totalDueAmount";
+            }
+        }
+
+        Sort.Direction direction = Sort.Direction.DESC;
+
+        if (sortDir != null && sortDir.equalsIgnoreCase("asc")) {
+            direction = Sort.Direction.ASC;
+        }
+
+        Pageable pageable = PageRequest.of(page,size,Sort.by(direction, resolvedSortBy));
+
+        InvoiceStatus status = null;
+
+        if (statusStr != null && !statusStr.trim().isEmpty() && !statusStr.equalsIgnoreCase("ALL")) {
+            try {
+                status = InvoiceStatus.valueOf(statusStr.trim().toUpperCase());
+            }
+            catch (IllegalArgumentException e) {
+                status = null;
+            }
+        }
+        String searchValue = "";
+
+        if (search != null) {
+            searchValue = search.trim();
+        }
+        List<Invoice> invoices=invoiceRepository.getInvoicesByHealthcareWithSearchAndFilter(name,searchValue,status,pageable);
 
         List<InvoiceRespDto> invoiceDtos = new ArrayList<>();
 
         for (Invoice invoice : invoices) {
-            List<MedicalServiceInvoice> medicalServiceInvoices=medicalServiceInvoiceService
-                    .getByInvoiceId(invoice.getId());
 
-            List<MedicalServiceInvoiceRespDto> services=medicalServiceInvoices
-                            .stream()
+            List<MedicalServiceInvoice> medicalServiceInvoices=medicalServiceInvoiceService.getByInvoiceId(invoice.getId());
+
+            List<MedicalServiceInvoiceRespDto> services=medicalServiceInvoices.stream()
                             .map(medicalServiceInvoiceMapper::entityToDto)
                             .toList();
 
-            InvoiceRespDto invoiceRespDTO=invoiceMapper.entityToDto(invoice,services);
+            InvoiceRespDto invoiceRespDto=invoiceMapper.entityToDto(invoice, services);
 
-            invoiceDtos.add(invoiceRespDTO);
+            invoiceDtos.add(invoiceRespDto);
         }
+
         return invoiceDtos;
     }
+
 
     public Invoice findByInvoiceId(int id) {
         return invoiceRepository.findById(id)
@@ -168,8 +212,6 @@ public class InvoiceService {
         if (invoice.getPatient().getId() != patient.getId()) {
             throw new OwnershipInvalidException("You cannot pay this invoice");
         }
-
-        invoice.setBalanceRemaining(java.math.BigDecimal.ZERO);
         invoice.setInvoiceStatus(InvoiceStatus.PAID);
 
         invoiceRepository.save(invoice);
